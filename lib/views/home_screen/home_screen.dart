@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                               "Hey!",
                               style: TextStyle(color: fontGrey, fontSize: 15),
                             ),
-                            "Anas Solkar"
+                            "Shamil Solkar"
                                 .text
                                 .size(18)
                                 .fontWeight(FontWeight.w700)
