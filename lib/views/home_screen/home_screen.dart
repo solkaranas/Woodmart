@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Get.find<HomeController>();
-    return /*StreamBuilder(
+    return StreamBuilder(
         stream: FirestoreServices.getUser(currentUser!.uid),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
@@ -43,8 +43,7 @@ class HomeScreen extends StatelessWidget {
             );
           } else {
             var data = snapshot.data!.docs[0];
-            return */ Container(
-              padding: const EdgeInsets.all(12),
+            return Container(              padding: const EdgeInsets.all(12),
               color: Colors.white,
               width: context.screenWidth,
               height: context.screenHeight,
@@ -53,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                 /*   data['imageUrl'] == ""?
+                   data['imageUrl'] == ""?
                          Image.asset(imgProfile,
                          width: 60,
                          fit: BoxFit.cover,)
@@ -61,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                               data['imageUrl'],
                               width: 70,
                               fit: BoxFit.cover,
-                            ).box.roundedFull.clip(Clip.antiAlias).make(),*/
+                            ).box.roundedFull.clip(Clip.antiAlias).make(),
                       Padding(
                         padding: const EdgeInsets.all(6.0),
                         child: Column(
@@ -72,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                               "Hey!",
                               style: TextStyle(color: fontGrey, fontSize: 15),
                             ),
-                            "Shamil Solkar"
+                            "${data['name']}"
                                 .text
                                 .size(18)
                                 .fontWeight(FontWeight.w700)
@@ -299,6 +298,6 @@ class HomeScreen extends StatelessWidget {
                 ],
               )),
             );
-          
+  }});
   }
 }
