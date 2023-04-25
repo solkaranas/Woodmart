@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:wood_mart/consts/consts.dart';
 
 class ProductController extends GetxController {
-  var quantity = 0.obs;
+  var quantity = 1.obs;
   var colorIndex = 0.obs;
   var totalPrice = 0.obs;
 

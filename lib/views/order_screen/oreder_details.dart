@@ -35,32 +35,45 @@ class OrderDetails extends StatelessWidget {
                   icon: Icons.done,
                   title: "Placed",
                   showDone: data['order_placed']),
-                  orderStatus(
+              orderStatus(
                   color: Colors.blue,
                   icon: Icons.thumb_up,
                   title: "Confirmed",
                   showDone: data['order_confirmed']),
-                  orderStatus(
+              orderStatus(
                   color: Colors.yellow,
                   icon: Icons.car_crash,
                   title: "On Delivery",
                   showDone: data['order_on_delivery']),
-                  orderStatus(
+              orderStatus(
                   color: Colors.purple,
                   icon: Icons.done_all_rounded,
                   title: "Delivered",
                   showDone: data['order_delivered']),
-              
-                  const Divider(),
-                  10.heightBox,
-                Column(
-                  children: [
-                      orderPlaceDetails( d1: data['order_code'],d2: data['shipping_method'],title1: "Order Code", title2: "Shipping Method" ),
-                  orderPlaceDetails( d1: intl.DateFormat().add_yMd().format((data['order_date'].toDate())),d2: data['payment_method'],title1: "Order Date", title2: "Payment Method" ),
-                  orderPlaceDetails( d1: "Unpaid",d2:"Order Placed",title1: "Payment Status", title2: "Delivery Status" ),
-        
+              const Divider(),
+              10.heightBox,
+              Column(
+                children: [
+                  orderPlaceDetails(
+                      d1: data['order_code'],
+                      d2: data['shipping_method'],
+                      title1: "Order Code",
+                      title2: "Shipping Method"),
+                  orderPlaceDetails(
+                      d1: intl.DateFormat()
+                          .add_yMd()
+                          .format((data['order_date'].toDate())),
+                      d2: data['payment_method'],
+                      title1: "Order Date",
+                      title2: "Payment Method"),
+                  orderPlaceDetails(
+                      d1: data['payment_method'] == "COD" ? "Unpaid" : "Paid",
+                      d2: "Order Placed",
+                      title1: "Payment Status",
+                      title2: "Delivery Status"),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal :16.0,vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -84,45 +97,57 @@ class OrderDetails extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               "Total Amount".text.fontFamily(semibold).make(),
-                              "${data['total_amount']}".text.color(redColor).fontFamily(bold).make()
+                              "${data['total_amount']}"
+                                  .text
+                                  .color(redColor)
+                                  .fontFamily(bold)
+                                  .make()
                             ],
                           ),
                         )
                       ],
                     ),
                   )
-                  ],
-                ).box.outerShadowMd.white.make(),
-                10.heightBox,
-                "Order Product".text.size(18).color(darkFontGrey).fontFamily(semibold).makeCentered(),
-                10.heightBox,
-               ListView(
+                ],
+              ).box.outerShadowMd.white.make(),
+              10.heightBox,
+              "Order Product"
+                  .text
+                  .size(18)
+                  .color(darkFontGrey)
+                  .fontFamily(semibold)
+                  .makeCentered(),
+              10.heightBox,
+              ListView(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                children:  List.generate(data['orders'].length, (index){
+                children: List.generate(data['orders'].length, (index) {
                   return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children:[ orderPlaceDetails(
-                      title1: data['orders'][index]['title'],
-                      title2: data['orders'][index]['tprice'],
-                      d1: "${data['orders'][index]['qty']} x",
-                      d2: "Refundable"),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal:16.0),
-                        child: Container(
-                          width: 30,
-                          height: 15,
-                          color: Color(data['orders'][index]['color']),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        orderPlaceDetails(
+                            title1: data['orders'][index]['title'],
+                            title2: data['orders'][index]['tprice'],
+                            d1: "${data['orders'][index]['qty']} x",
+                            d2: "Refundable"),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Container(
+                            width: 30,
+                            height: 15,
+                            color: Color(data['orders'][index]['color']),
+                          ),
                         ),
-                      ),
-                      const Divider(),
-             ] );
+                        const Divider(),
+                      ]);
                 }).toList(),
-
-                
-               ).box.outerShadowMd.white.margin(const EdgeInsets.only(bottom: 4)).make(),
-                               20.heightBox,
-
+              )
+                  .box
+                  .outerShadowMd
+                  .white
+                  .margin(const EdgeInsets.only(bottom: 4))
+                  .make(),
+              20.heightBox,
             ],
           ),
         ),

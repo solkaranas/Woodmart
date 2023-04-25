@@ -43,7 +43,10 @@ class CartScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(FontAwesomeIcons.cartArrowDown,size: 30,),
+                      const Icon(
+                        FontAwesomeIcons.cartArrowDown,
+                        size: 30,
+                      ),
                       "Cart is Empty".text.size(25).color(darkFontGrey).make(),
                     ],
                   ),
@@ -60,24 +63,29 @@ class CartScreen extends StatelessWidget {
                               itemCount: data.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return ListTile(
-                                  leading:
-                                      Image.network("${data[index]['img']}",
-                                      width: 80,
-                                      fit: BoxFit.cover,
-                                      ),
-                                      
+                                  leading: Image.network(
+                                    "${data[index]['img']}",
+                                    width: 80,
+                                    fit: BoxFit.cover,
+                                  ),
                                   title:
                                       "${data[index]['title']} (x${data[index]['qty']})"
                                           .text
                                           .fontFamily(semibold)
                                           .size(16)
                                           .make(),
-                                  subtitle: "${data[index]['tprice']}"
+                                  subtitle: /* "${data[index]['tprice']}"
                                       .numCurrency
                                       .text
                                       .fontWeight(FontWeight.bold)
                                       .color(Colors.black)
-                                      .make(),
+                                      .make() */
+                                      Text(
+                                          "₹${(data[index]['tprice']).toString().numCurrency}",
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black,
+                                              fontSize: 15.0)),
                                   trailing: IconButton(
                                       onPressed: () {
                                         FirestoreServices.deleteDocument(
@@ -108,14 +116,19 @@ class CartScreen extends StatelessWidget {
                                       .make(),
                                   5.heightBox,
                                   Obx(
-                                    () => "${controller.totalP.value}"
+                                      () => /* "${controller.totalP.value}"
                                         .numCurrency
                                         .text
                                         .size(20)
                                         .fontWeight(FontWeight.bold)
                                         .color(Colors.black)
-                                        .make(),
-                                  ),
+                                        .make(), */
+                                          Text(
+                                              "₹${(controller.totalP.value).toString().numCurrency}",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                  fontSize: 15.0))),
                                 ],
                               ).box.size(context.screenWidth * 0.30, 90).make(),
                               const Spacer(),

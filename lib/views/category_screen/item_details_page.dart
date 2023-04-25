@@ -4,15 +4,26 @@ import 'package:wood_mart/consts/consts.dart';
 import 'package:wood_mart/consts/controllers/product_controller.dart';
 import 'package:wood_mart/widgets_common/our_button.dart';
 
-class ItemDetails extends StatelessWidget {
+class ItemDetails extends StatefulWidget {
   final String? title;
   final dynamic data;
   const ItemDetails({Key? key, this.title, this.data}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    var controller = Get.put(ProductController());
+  State<ItemDetails> createState() => _ItemDetailsState();
+}
 
+class _ItemDetailsState extends State<ItemDetails> {
+  final controller = Get.put(ProductController());
+
+  @override
+  void initState() {
+    controller.calculateTotalPrice(int.parse(widget.data['p_price']));
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
         controller.resetValues();
@@ -42,10 +53,10 @@ class ItemDetails extends StatelessWidget {
                           viewportFraction: 1.0,
                           aspectRatio: 16 / 9,
                           height: 350,
-                          itemCount: data['p_imgs'].length,
+                          itemCount: widget.data['p_imgs'].length,
                           itemBuilder: (context, index) {
                             return Image.network(
-                              data['p_imgs'][index],
+                              widget.data['p_imgs'][index],
                               width: double.infinity,
                               fit: BoxFit.cover,
                             );
@@ -57,7 +68,7 @@ class ItemDetails extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                title!.text
+                                widget.title!.text
                                     .size(40)
                                     .color(Colors.black)
                                     .fontWeight(FontWeight.bold)
@@ -68,10 +79,10 @@ class ItemDetails extends StatelessWidget {
                                       onPressed: () {
                                         if (controller.isFav.value) {
                                           controller.removeFromWishlist(
-                                              data.id, context);
+                                              widget.data.id, context);
                                         } else {
                                           controller.addToWishlist(
-                                              data.id, context);
+                                              widget.data.id, context);
                                         }
                                       },
                                       icon: Icon(
@@ -86,7 +97,7 @@ class ItemDetails extends StatelessWidget {
                             ),
                             VxRating(
                               isSelectable: false,
-                              value: double.parse(data['p_rating']),
+                              value: double.parse(widget.data['p_rating']),
                               onRatingUpdate: (value) {},
                               normalColor: textfieldGrey,
                               selectionColor: golden,
@@ -95,7 +106,8 @@ class ItemDetails extends StatelessWidget {
                               size: 25,
                             ),
                             10.heightBox,
-                            "${data['p_price']}".numCurrency
+                            "${widget.data['p_price']}"
+                                .numCurrency
                                 .text
                                 .size(20)
                                 .fontWeight(FontWeight.bold)
@@ -108,7 +120,7 @@ class ItemDetails extends StatelessWidget {
                                 .color(Colors.black)
                                 .make(),
                             5.heightBox,
-                            "${data['p_desc']}"
+                            "${widget.data['p_desc']}"
                                 .text
                                 .size(15)
                                 .fontWeight(FontWeight.w300)
@@ -124,16 +136,16 @@ class ItemDetails extends StatelessWidget {
                             10.heightBox,
                             Row(
                               children: List.generate(
-                                  data['p_colors'].length,
+                                  widget.data['p_colors'].length,
                                   (index) => Stack(
                                         alignment: Alignment.center,
                                         children: [
                                           VxBox()
                                               .size(40, 40)
                                               .roundedFull
-                                              .color(
-                                                  Color(data['p_colors'][index])
-                                                      .withOpacity(1.0))
+                                              .color(Color(widget
+                                                      .data['p_colors'][index])
+                                                  .withOpacity(1.0))
                                               .margin(
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 4))
@@ -169,7 +181,8 @@ class ItemDetails extends StatelessWidget {
                                           onPressed: () {
                                             controller.decreaseQuantity();
                                             controller.calculateTotalPrice(
-                                                int.parse(data['p_price']));
+                                                int.parse(
+                                                    widget.data['p_price']));
                                           },
                                           icon: const Icon(
                                               FontAwesomeIcons.minus)),
@@ -183,9 +196,11 @@ class ItemDetails extends StatelessWidget {
                                       IconButton(
                                           onPressed: () {
                                             controller.increaseQuantity(
-                                                int.parse(data['p_quantity']));
+                                                int.parse(
+                                                    widget.data['p_quantity']));
                                             controller.calculateTotalPrice(
-                                                int.parse(data['p_price']));
+                                                int.parse(
+                                                    widget.data['p_price']));
                                           },
                                           icon: const Icon(
                                               FontAwesomeIcons.plus)),
@@ -200,7 +215,7 @@ class ItemDetails extends StatelessWidget {
                               ],
                             ),
                             5.heightBox,
-                            "${data['p_quantity']} available"
+                            "${widget.data['p_quantity']} available"
                                 .text
                                 .size(15)
                                 .fontWeight(FontWeight.w300)
@@ -213,7 +228,7 @@ class ItemDetails extends StatelessWidget {
                                 .color(Colors.black)
                                 .make(),
                             5.heightBox,
-                            "${data['p_seller']}"
+                            "${widget.data['p_seller']}"
                                 .text
                                 .size(15)
                                 .fontWeight(FontWeight.w300)
@@ -247,13 +262,19 @@ class ItemDetails extends StatelessWidget {
                               .color(Colors.black)
                               .make(),
                           5.heightBox,
-                          "${controller.totalPrice.value}"
+                          /* "${controller.totalPrice.value}"
                               .numCurrency
                               .text
                               .size(20)
                               .fontWeight(FontWeight.bold)
                               .color(Colors.black)
-                              .make(),
+                              .make(), */
+                          Text(
+                              "₹${(controller.totalPrice.value).toString().numCurrency}",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 20.0))
                         ],
                       ).box.size(context.screenWidth * 0.30, 90).make(),
                       const Spacer(),
@@ -261,14 +282,14 @@ class ItemDetails extends StatelessWidget {
                               onPress: () {
                                 if (controller.quantity.value > 0) {
                                   controller.addToCart(
-                                    color: data['p_colors']
+                                    color: widget.data['p_colors']
                                         [controller.colorIndex.value],
                                     context: context,
-                                    vendorID: data['vendor_id'],
-                                    img: data['p_imgs'][0],
+                                    vendorID: widget.data['vendor_id'],
+                                    img: widget.data['p_imgs'][0],
                                     qty: controller.quantity.value,
-                                    sellername: data['p_seller'],
-                                    title: data['p_name'],
+                                    sellername: widget.data['p_seller'],
+                                    title: widget.data['p_name'],
                                     tprice: controller.totalPrice.value,
                                   );
                                   VxToast.show(context, msg: "Added to Cart");

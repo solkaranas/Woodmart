@@ -15,8 +15,9 @@ class AuthController extends GetxController {
     UserCredential? userCredential;
 
     try {
-     userCredential = await auth.signInWithEmailAndPassword(
+      userCredential = await auth.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
+      currentUser = userCredential.user;
     } on FirebaseAuthException catch (e) {
       VxToast.show(context, msg: e.toString());
     }
@@ -28,7 +29,9 @@ class AuthController extends GetxController {
     UserCredential? userCredential;
 
     try {
-   userCredential = await auth.createUserWithEmailAndPassword(email: email, password: password);
+      userCredential = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      currentUser = userCredential.user;
     } on FirebaseAuthException catch (e) {
       VxToast.show(context, msg: e.toString());
     }
@@ -38,24 +41,26 @@ class AuthController extends GetxController {
 //storing data method
 
   storeUserData({name, password, email}) async {
-    DocumentReference store = firestore.collection(usersCollection).doc(currentUser!.uid);
+    DocumentReference store =
+        firestore.collection(usersCollection).doc(currentUser!.uid);
     store.set({
       'name': name,
       'password': password,
       'email': email,
       'imageUrl': '',
-     'id': currentUser!.uid,
+      'id': currentUser!.uid,
     });
   }
 
-storeVendorData({name, password, email}) async {
-    DocumentReference store = firestore.collection(vendorsCollection).doc(currentUser!.uid);
+  storeVendorData({name, password, email}) async {
+    DocumentReference store =
+        firestore.collection(vendorsCollection).doc(currentUser!.uid);
     store.set({
       'vendor_name': name,
       'password': password,
       'email': email,
       'imageUrl': '',
-     'id': currentUser!.uid,
+      'id': currentUser!.uid,
     });
   }
 

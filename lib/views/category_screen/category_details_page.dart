@@ -79,13 +79,19 @@ class CategoryDetails extends StatelessWidget {
                                         .size(18)
                                         .make(),
                                     10.heightBox,
-                                    "${data[index]['p_price']}"
+                                    /* "${data[index]['p_price']}"
                                         .numCurrency
                                         .text
                                         .fontWeight(FontWeight.bold)
                                         .color(Colors.black)
                                         .size(15)
-                                        .make()
+                                        .make() */
+                                    Text(
+                                        "₹${(data[index]['p_price']).toString().numCurrency}",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                            fontSize: 15.0))
                                   ],
                                 )
                                     .box

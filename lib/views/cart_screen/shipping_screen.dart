@@ -30,8 +30,7 @@ class ShippingDetails extends StatelessWidget {
             onPress: () {
               if (controller.addressController.text.length > 10) {
                 Get.to(() => const PaymentMethod());
-              }
-             else {
+              } else {
                 VxToast.show(context, msg: "Please fill the Form");
               }
             },
@@ -57,15 +56,13 @@ class ShippingDetails extends StatelessWidget {
                 title: "State",
                 isPass: false,
                 controller: controller.stateController),
-            customTextfield(
+            pinCodefield(
                 hint: "Postal Code",
                 title: "Postal Code",
-                isPass: false,
                 controller: controller.postalcodeController),
-            customTextfield(
+            mobNumberfield(
                 hint: "2991992194",
                 title: "Phone",
-                isPass: false,
                 controller: controller.phoneController),
           ],
         ),

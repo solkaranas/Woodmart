@@ -43,7 +43,8 @@ class HomeScreen extends StatelessWidget {
             );
           } else {
             var data = snapshot.data!.docs[0];
-            return Container(              padding: const EdgeInsets.all(12),
+            return Container(
+              padding: const EdgeInsets.all(12),
               color: Colors.white,
               width: context.screenWidth,
               height: context.screenHeight,
@@ -52,10 +53,12 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                   data['imageUrl'] == ""?
-                         Image.asset(imgProfile,
-                         width: 60,
-                         fit: BoxFit.cover,)
+                      data['imageUrl'] == ""
+                          ? Image.asset(
+                              imgProfile,
+                              width: 60,
+                              fit: BoxFit.cover,
+                            )
                           : Image.network(
                               data['imageUrl'],
                               width: 70,
@@ -95,11 +98,10 @@ class HomeScreen extends StatelessWidget {
                     height: context.screenHeight * 0.06,
                     width: context.screenWidth * 0.95,
                     child: TextFormField(
-                      
                       controller: controller.searchController,
                       cursorColor: Colors.black,
                       decoration: InputDecoration(
-                        suffixIconColor: Colors.black,
+                          suffixIconColor: Colors.black,
                           border: OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius: BorderRadius.circular(12.0)),
@@ -204,7 +206,6 @@ class HomeScreen extends StatelessWidget {
                                             title: categoriesList[index]));
                                       });
                                     })),
-                       
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
@@ -272,13 +273,21 @@ class HomeScreen extends StatelessWidget {
                                                           FontWeight.bold),
                                                 ),
                                                 10.heightBox,
-                                                "${featuredProductdata[index]['p_price']}"
+
+                                                /* "${featuredProductdata[index]['p_price']}"
                                                     .numCurrency
                                                     .text
                                                     .fontWeight(FontWeight.bold)
                                                     .color(Colors.black)
                                                     .size(15)
-                                                    .make()
+                                                    .make() */
+                                                Text(
+                                                    "₹${(featuredProductdata[index]['p_price']).toString().numCurrency}",
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black,
+                                                        fontSize: 15.0))
                                               ],
                                             ).box.make().onTap(() {
                                               Get.to(() => ItemDetails(
@@ -298,6 +307,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               )),
             );
-  }});
+          }
+        });
   }
 }

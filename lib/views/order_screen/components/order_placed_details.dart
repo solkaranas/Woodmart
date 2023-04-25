@@ -1,9 +1,9 @@
 import 'package:wood_mart/consts/consts.dart';
 
-Widget orderPlaceDetails({title1,title2,d1,d2}) {
+Widget orderPlaceDetails({title1, title2, d1, d2}) {   
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-    child: Row(
+    child: Row( 
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(
@@ -12,7 +12,7 @@ Widget orderPlaceDetails({title1,title2,d1,d2}) {
             "$title1".text.fontFamily(semibold).make(),
             "$d1"
                 .text
-                .color(redColor)
+                .color(d1 == "Paid" ? Colors.green : redColor)
                 .fontFamily(semibold)
                 .make()
           ],
@@ -23,10 +23,7 @@ Widget orderPlaceDetails({title1,title2,d1,d2}) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               "$title2".text.fontFamily(semibold).make(),
-              "$d2"
-                  .text
-                  .fontFamily(semibold)
-                  .make()
+              "$d2".text.fontFamily(semibold).make()
             ],
           ),
         )
